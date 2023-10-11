@@ -5,14 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class Course extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    protected $fillable = ['teacher', 'name', 'students'];
+    use HasFactory, Notifiable;
+    protected $fillable = ['name', 'teacher_id'];
 
-    protected $casts = [
-        'students' => 'array',
-    ];
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'course_id');
+    }
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'course_id');
+    }
 }

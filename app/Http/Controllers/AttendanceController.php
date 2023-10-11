@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 
-class CourseController extends Controller
+class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return Course::with('students', 'teacher', "attendances")->get();
+        return Attendance::with('student', 'course')->get();
     }
 
     /**
@@ -30,9 +27,9 @@ class CourseController extends Controller
     {
         $data = $request->all();
 
-        $course = Course::create($data);
+        $attendance = Attendance::create($data);
 
-        return $course;
+        return $attendance;
     }
 
     /**
@@ -40,9 +37,9 @@ class CourseController extends Controller
      */
     public function show(string $id)
     {
-        $course = Course::with('students', 'teacher',  "attendances")->findOrFail($id);
+        $attendance = Attendance::with('students', 'course')->findOrFail($id);
 
-        return $course;
+        return $attendance;
     }
 
     /**
@@ -58,13 +55,13 @@ class CourseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $course = course::findOrFail($id);
+        $attendance = Attendance::findOrFail($id);
 
         $data = $request->all();
 
-        $course->update($data);
+        $attendance->update($data);
 
-        return $course;
+        return $attendance;
     }
 
     /**
@@ -72,8 +69,8 @@ class CourseController extends Controller
      */
     public function destroy(string $id)
     {
-        $course = Course::findOrFail($id);
-        $course->delete();
+        $attendance = Attendance::findOrFail($id);
+        $attendance->delete();
 
         return response()->json([], 204);
     }

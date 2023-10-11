@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -21,11 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/users", [UserController::class, "index"]);
-Route::post("/users", [UserController::class, "store"]);
-Route::get("/users/{id}", [UserController::class, "show"]);
-Route::patch("/users/{id}", [UserController::class, "update"]);
-Route::delete("/users/{id}", [UserController::class, "destroy"]);
+Route::get("/students", [StudentsController::class, "index"]);
+Route::post("/students", [StudentsController::class, "store"]);
+Route::get("/students/{id}", [StudentsController::class, "show"]);
+Route::patch("/students/{id}", [StudentsController::class, "update"]);
+Route::delete("/students/{id}", [StudentsController::class, "destroy"]);
 
 Route::get("/teachers", [TeacherController::class, "index"]);
 Route::post("/teachers", [TeacherController::class, "store"]);
@@ -38,6 +40,12 @@ Route::post("/courses", [CourseController::class, "store"]);
 Route::get("/courses/{id}", [CourseController::class, "show"]);
 Route::patch("/courses/{id}", [CourseController::class, "update"]);
 Route::delete("/courses/{id}", [CourseController::class, "destroy"]);
+
+Route::get("/attendance", [AttendanceController::class, "index"]);
+Route::post("/attendance", [AttendanceController::class, "store"]);
+Route::get("/attendance/{id}", [AttendanceController::class, "show"]);
+Route::patch("/attendance/{id}", [AttendanceController::class, "update"]);
+Route::delete("/attendance/{id}", [AttendanceController::class, "destroy"]);
 
 Route::get("/", function () {
     return response()->json([

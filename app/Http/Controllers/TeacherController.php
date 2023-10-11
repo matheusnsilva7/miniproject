@@ -12,7 +12,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return Teacher::all();
+        return Teacher::with('course')->get();
     }
 
     /**
@@ -42,7 +42,7 @@ class TeacherController extends Controller
      */
     public function show(string $id)
     {
-        $teacher = Teacher::findOrFail($id);
+        $teacher = Teacher::with('course')->findOrFail($id);
         return $teacher;
     }
 

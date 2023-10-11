@@ -13,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return User::with('course')->get();
     }
 
     /**
@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('course')->findOrFail($id);
         return $user;
     }
 
@@ -80,7 +80,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        
+
         return response()->json([], 204);
     }
 }

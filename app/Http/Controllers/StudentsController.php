@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
-class CourseController extends Controller
+class StudentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return Course::with('students', 'teacher', "attendances")->get();
+        return Student::with('course')->get();
     }
 
     /**
@@ -30,9 +27,11 @@ class CourseController extends Controller
     {
         $data = $request->all();
 
-        $course = Course::create($data);
+        $data["password"] = bcrypt($request->password);
 
-        return $course;
+        $student = Student::create($data);
+
+        return $student;
     }
 
     /**
@@ -40,9 +39,8 @@ class CourseController extends Controller
      */
     public function show(string $id)
     {
-        $course = Course::with('students', 'teacher',  "attendances")->findOrFail($id);
-
-        return $course;
+        $student = Student::with('course')->findOrFail($id);
+        return $student;
     }
 
     /**
@@ -58,13 +56,17 @@ class CourseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $course = course::findOrFail($id);
+        $student = Student::findOrFail($id);
 
         $data = $request->all();
 
-        $course->update($data);
+        if ($request->password) {
+            $data["password"] = bcrypt($request->password);
+        }
 
-        return $course;
+        $student->update($data);
+
+        return $student;
     }
 
     /**
@@ -72,8 +74,8 @@ class CourseController extends Controller
      */
     public function destroy(string $id)
     {
-        $course = Course::findOrFail($id);
-        $course->delete();
+        $student = Student::findOrFail($id);
+        $student->delete();
 
         return response()->json([], 204);
     }
